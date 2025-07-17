@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ecoval Price Configurator</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="style.css">
+		<script type="module" src="./main.js" defer></script>
+	</head>
+	<body>
+		<h1>Ecoval Price Configurator</h1>
+		<div class="main-container">
+			<div class="data-container">
+				<search-dropdown id="cpu" placeholder="Le processeur"></search-dropdown>
+				<search-dropdown id="ram" placeholder="La mémoire RAM"></search-dropdown>
+				<search-dropdown id="storage" placeholder="Le stockage"></search-dropdown>
+				<search-dropdown id="desktop-monitor" placeholder="L'écran d'ordinateur fixe"></search-dropdown>
+				<search-dropdown id="laptop-monitor" placeholder="L'écran d'ordinateur portable"></search-dropdown>
+				<div class="row">
+					<div class="label">Système d'exploitation:</div>
+					<switch-button id="os" value="40"></switch-button>
+				</div>
+				<div class="row">
+					<div class="label">Graveur DVD:</div>
+					<switch-button id="dvd" value="5"></switch-button>
+				</div>
+				<div class="row">
+					<div class="label">Clé WiFi:</div>
+					<switch-button id="wifi" value="15"></switch-button>
+				</div>
+				<div class="row">
+					<div class="label">Batterie d'occasion:</div>
+					<switch-button id="battery" value="10"></switch-button>
+				</div>
+			</div>
+			<div class="price-container">
+				<div class="row">
+					<div class="label">Le processeur:</div>
+					<div class="price" id="cpu-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">La mémoire RAM:</div>
+					<div class="price" id="ram-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">Le stockage:</div>
+					<div class="price" id="storage-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">L'écran d'ordinateur fixe:</div>
+					<div class="price" id="desktop-monitor-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">L'écran d'ordinateur portable:</div>
+					<div class="price" id="laptop-monitor-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">Système d'exploitation:</div>
+					<div class="price" id="os-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">Graveur DVD:</div>
+					<div class="price" id="dvd-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">Clé WiFi:</div>
+					<div class="price" id="wifi-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">Batterie:</div>
+					<div class="price" id="battery-price">0.-</div>
+				</div>
+				<div>
+					<div class="total-label">TOTAL</div>
+					<div class="total" id="total">CHF 0.-</div>
+				</div>
+			</div>
+		</div>
+		<div class="button-container">
+			<button id="reset-button">REMISE À ZÉRO</button>
+		</div>
+	</body>
+</html>
