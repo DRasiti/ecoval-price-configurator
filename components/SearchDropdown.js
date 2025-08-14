@@ -105,8 +105,19 @@ template.innerHTML = `
     .hide {
       display: none;
     }
+    .reset-button {
+      position: absolute;
+      left: -12px;
+      top: -12px;
+      z-index: 1;
+      cursor: pointer;
+      color: hsl(356, 95%, 46%);
+    }
   </style>
   <div class="search-dropdown-container">
+    <div class="reset-button hide">
+      <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentcolor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>Close</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Close"> <rect id="Rectangle" fill-rule="nonzero" x="0" y="0" width="24" height="24"> </rect> <line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="currentcolor" stroke-width="2" stroke-linecap="round"> </line> <line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="currentcolor" stroke-width="2" stroke-linecap="round"> </line> </g> </g> </g></svg>
+    </div>
     <div class="search-dropdown-field">
       <div class="search-dropdown-selected-value">Default selected value</div>
     </div>
@@ -150,6 +161,7 @@ export default class SearchDropdown extends HTMLElement {
     this.dropdownOptionsContainer = this.querySelector(".search-dropdown-options");
     this.searchInput = this.querySelector(".search-dropdown-input");
     this.clearButton = this.querySelector(".clear-button");
+    this.resetButton = this.querySelector(".reset-button");
     this.dropdownOptions = [];
     this.selectedValueContainer.textContent = this.defaultText;
     this._addEvents();
@@ -235,6 +247,9 @@ export default class SearchDropdown extends HTMLElement {
 
     this.refClearClick = this._handleClearClick.bind(this);
     this.clearButton.addEventListener("click", this.refClearClick);
+
+    this.refResetClick = this._handleResetClick.bind(this);
+    this.resetButton.addEventListener("click", this.refResetClick);
   }
 
   _removeEvents() {
@@ -280,6 +295,24 @@ export default class SearchDropdown extends HTMLElement {
     this.searchInput.focus();
   }
 
+  _handleResetClick(e) {
+    this._showAllOptions();
+    this.searchInput.value = "";
+    this.value = 0;
+    this.clearButton.classList.add("hide");
+    this.resetButton.classList.add("hide");
+
+    this.selectedValueContainer.textContent = this.defaultText;
+    if(this.selectedOption) {
+      this.selectedOption.classList.remove("selected");
+    }
+
+    this.emit("select", {
+      name: this.selectedOption.children[0].textContent,
+      value: this.value
+    });
+  }
+
   _openDropdown() {
     this.dropdownContent.classList.add("open");
     this.searchInput.value = "";
@@ -306,6 +339,8 @@ export default class SearchDropdown extends HTMLElement {
       name: this.selectedOption.children[0].textContent,
       value: this.value
     });
+
+    this.resetButton.classList.remove("hide");
   }
 
   _selectOption(option) {
@@ -393,6 +428,8 @@ export default class SearchDropdown extends HTMLElement {
     if(this.selectedOption) {
       this.selectedOption.classList.remove("selected");
     }
+
+    this.resetButton.classList.add("hide");
   }
 }
 
