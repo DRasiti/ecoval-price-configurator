@@ -588,6 +588,10 @@ export const cpus = [
     price: 95,
   },
   {
+    name: "Intel Core i5 1035 G4 @ 1.10 GHz",
+    price: 95,
+  },
+  {
     name: "Intel Core i5 10500H @ 2.5 GHz",
     price: 100,
   },
