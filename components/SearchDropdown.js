@@ -118,10 +118,10 @@ template.innerHTML = `
     <div class="reset-button hide">
       <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentcolor"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>Close</title> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Close"> <rect id="Rectangle" fill-rule="nonzero" x="0" y="0" width="24" height="24"> </rect> <line x1="16.9999" y1="7" x2="7.00001" y2="16.9999" id="Path" stroke="currentcolor" stroke-width="2" stroke-linecap="round"> </line> <line x1="7.00006" y1="7" x2="17" y2="16.9999" id="Path" stroke="currentcolor" stroke-width="2" stroke-linecap="round"> </line> </g> </g> </g></svg>
     </div>
-    <div class="search-dropdown-field">
+    <div class="search-dropdown-field" tabindex="0">
       <div class="search-dropdown-selected-value">Default selected value</div>
     </div>
-    <div class="search-dropdown-content">
+    <div class="search-dropdown-content" tabindex="0">
       <div class="search-dropdown-input-container">
         <svg class="search-icon" fill="#c0c0c0" width="24px" height="24px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-f</title><path d="M464,428,339.92,303.9a160.48,160.48,0,0,0,30.72-94.58C370.64,120.37,298.27,48,209.32,48S48,120.37,48,209.32s72.37,161.32,161.32,161.32a160.48,160.48,0,0,0,94.58-30.72L428,464ZM209.32,319.69A110.38,110.38,0,1,1,319.69,209.32,110.5,110.5,0,0,1,209.32,319.69Z"></path></g></svg>
         <input class="search-dropdown-input" type="text" />
@@ -162,7 +162,7 @@ export default class SearchDropdown extends HTMLElement {
     this.searchInput = this.querySelector(".search-dropdown-input");
     this.clearButton = this.querySelector(".clear-button");
     this.resetButton = this.querySelector(".reset-button");
-    this.dropdownOptions = [];
+    this.dropdownOptions = null;
     this.selectedValueContainer.textContent = this.defaultText;
     this._addEvents();
   }
@@ -221,7 +221,7 @@ export default class SearchDropdown extends HTMLElement {
     })
 
     this.dropdownOptions = this.querySelectorAll(".search-dropdown-option");
-
+    
     this._addOptionClickEvents();
   }
   /*btnClickListener(e) {
@@ -240,7 +240,7 @@ export default class SearchDropdown extends HTMLElement {
     this.refWindowClick = this._handleWindowClick.bind(this);
     window.addEventListener("click", this.refWindowClick);
 
-    this._addOptionClickEvents();
+    // this._addOptionClickEvents();
 
     this.refSearchInput = this._handleSearchInput.bind(this);
     this.searchInput.addEventListener("input", this.refSearchInput);
@@ -250,6 +250,12 @@ export default class SearchDropdown extends HTMLElement {
 
     this.refResetClick = this._handleResetClick.bind(this);
     this.resetButton.addEventListener("click", this.refResetClick);
+
+    this.refKeyboardEvents = this._handleKeyboardEvents.bind(this);
+    this.dropdownContent.addEventListener('keyup', this.refKeyboardEvents);
+
+    this.refDropdownField = this._handleKeyboardDropdown.bind(this);
+    this.dropdownField.addEventListener('keyup', this.refDropdownField);
   }
 
   _removeEvents() {
@@ -278,6 +284,69 @@ export default class SearchDropdown extends HTMLElement {
     Array.prototype.forEach.call(this.dropdownOptions, (option) => {
       option.addEventListener("click", this._handleDropdownOptionClick.bind(this))
     });
+  }
+
+  _handleKeyboardEvents(e) {
+    e.preventDefault();
+
+    if(e.code == 'ArrowUp' || e.code == 'ArrowDown' || e.code == 'Enter') {
+      let direction = '';
+      
+      if(e.code == 'ArrowUp') direction = 'up';
+      if(e.code == 'ArrowDown') direction = 'down';
+      let options = [...this.dropdownOptions];
+      options = options.filter((option) => option.classList.contains("hide") == false);
+
+      let selectedOption = options.indexOf(this.dropdownOptionsContainer.querySelector('.selected'));
+      
+      // if(selectedOption == -1) selectedOption = 0;
+
+      if(direction == 'up') {
+        if(selectedOption == 0 || selectedOption == -1) {
+          selectedOption = 0;
+        } else {
+          selectedOption -= 1;
+        }
+      }
+
+      if(direction == 'down') {
+        if(selectedOption == -1) {
+          selectedOption = 0;
+        } else if(selectedOption == (options.length - 1)) {
+          selectedOption = options.length - 1;
+        } else {
+          selectedOption += 1;
+        }
+      }
+
+      if(selectedOption != -1) this._selectOption(options[selectedOption]);
+
+      if(direction == 'up') this.dropdownOptions[selectedOption].scrollIntoView({ behavior: "smooth", block: "start" });
+      if(direction == 'down') this.dropdownOptions[selectedOption].scrollIntoView({ behavior: "smooth", block: "end" });
+
+      if(e.code == 'Enter' && selectedOption != -1) {
+        options[selectedOption].click();
+      }
+    }
+
+    if(e.code == 'Escape') {
+      this._closeDropdown();
+    }
+  }
+
+  _handleKeyboardDropdown(e) {
+    e.preventDefault();
+
+    if(e.code == 'Space') {
+      if(!this.dropdownContent.classList.contains("open")) {
+        this._openDropdown();
+      } else {
+        this._closeDropdown();
+      }
+    }
+    if(e.code == 'Escape') {
+      this._closeDropdown();
+    }
   }
 
   _handleSearchInput(e) {

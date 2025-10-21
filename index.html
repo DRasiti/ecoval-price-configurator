@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Ecoval Price Configurator</title>
+		<title>Ecoval - Configurateur de prix</title>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="style.css">
 		<script type="module" src="./main.js" defer></script>
 	</head>
 	<body>
-		<h1>Ecoval Price Configurator</h1>
+		<h1>Ecoval - Configurateur de prix</h1>
 		<div class="main-container">
 			<div class="data-container">
 				<search-dropdown id="cpu" placeholder="Le processeur"></search-dropdown>
@@ -30,6 +30,10 @@
 				<div class="row">
 					<div class="label">Batterie d'occasion:</div>
 					<switch-button id="battery" value="10"></switch-button>
+				</div>
+				<div class="row">
+					<div class="label">Tactile:</div>
+					<switch-button id="touch" value="40"></switch-button>
 				</div>
 			</div>
 			<div class="price-container">
@@ -68,6 +72,10 @@
 				<div class="row">
 					<div class="label">Batterie:</div>
 					<div class="price" id="battery-price">0.-</div>
+				</div>
+				<div class="row">
+					<div class="label">Tactile:</div>
+					<div class="price" id="touch-price">0.-</div>
 				</div>
 				<div>
 					<div class="total-label">TOTAL</div>

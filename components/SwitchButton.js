@@ -51,22 +51,22 @@ template.innerHTML = `
 
     input:checked + label .card { background:tomato; }
 
-    .slide2 { overflow:hidden; }
-    .slide2 .card {
+    .slide { overflow:hidden; }
+    .slide .card {
       transform:translate(0);
       background:transparent;
       box-shadow:
         -3.75rem 0 #06e35bff,
         3.75rem 0 #e30613;
     }
-    .slide2 input:checked + label .card {
+    .slide input:checked + label .card {
       transform:translateX(3.75rem);
       background:transparent;
     }
   </style>
 
   <div class="container">
-    <div class="toggle slide2" data-on-text="OUI" data-off-text="NON">
+    <div class="toggle slide" data-on-text="OUI" data-off-text="NON" tabindex="0">
       <input id="d" type="checkbox" />
       <label for="d">
         <div class="card"></div>    
@@ -92,6 +92,7 @@ export default class SwitchButton extends HTMLElement {
 
   connectedCallback() {
     // console.log("Element added to the DOM");
+    this.toggleContainer = this.querySelector('.toggle');
     this.toggleButton = this.querySelector("input");
     // console.log("TOGGLE BUTTON: connectedCallback", this.checked);
     this.toggleButton.checked = this.checked;
@@ -146,6 +147,9 @@ export default class SwitchButton extends HTMLElement {
     // console.log("TOGGLE BUTTON: _addEvents");
     this.refToggleButtonHandler = this._toggleButtonHandler.bind(this);
     this.toggleButton.addEventListener("change", this.refToggleButtonHandler);
+
+    this.refToggleButtonKeyboardHandler = this._toggleButtonKeyboardHandler.bind(this);
+    this.toggleContainer.addEventListener("keyup", this.refToggleButtonKeyboardHandler);
   }
 
   _removeEvents() {
@@ -163,6 +167,14 @@ export default class SwitchButton extends HTMLElement {
       checked: this.checked,
       value: this.value
     });
+  }
+
+  _toggleButtonKeyboardHandler(e) {
+    e.preventDefault();
+
+    if(e.code == "Space") {
+      this.toggleButton.click();
+    }
   }
 
   emit(type, detail = {}) {

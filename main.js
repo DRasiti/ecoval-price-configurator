@@ -15,6 +15,7 @@ const os = document.querySelector("#os");
 const dvd = document.querySelector("#dvd");
 const wifi = document.querySelector("#wifi");
 const battery = document.querySelector("#battery");
+const touch = document.querySelector("#touch");
 
 const cpuPrice = document.querySelector("#cpu-price");
 const ramPrice = document.querySelector("#ram-price");
@@ -25,6 +26,7 @@ const osPrice = document.querySelector("#os-price");
 const dvdPrice = document.querySelector("#dvd-price");
 const wifiPrice = document.querySelector("#wifi-price");
 const batteryPrice = document.querySelector("#battery-price");
+const touchPrice = document.querySelector("#touch-price");
 const totalPrice = document.querySelector("#total");
 
 const resetButton = document.querySelector("#reset-button");
@@ -38,7 +40,8 @@ let prices = {
   os: 0,
   dvd: 0,
   wifi: 0,
-  battery: 0
+  battery: 0,
+  touch: 0
 };
 
 cpu.setAttribute("data", JSON.stringify(cpus));
@@ -92,6 +95,11 @@ battery.addEventListener("switch", (e) => {
   prices.battery = battery.checked ? battery.value : 0;
   total(prices);
 });
+touch.addEventListener("switch", (e) => {
+  touchPrice.textContent = `${touch.checked ? touch.value : 0}.-`;
+  prices.touch = touch.checked ? touch.value : 0;
+  total(prices);
+});
 
 resetButton.addEventListener("click", (e) => {
   cpu.reset();
@@ -103,6 +111,7 @@ resetButton.addEventListener("click", (e) => {
   dvd.reset();
   wifi.reset();
   battery.reset();
+  touch.reset();
 
   prices = {
     cpu: 0,
@@ -113,7 +122,8 @@ resetButton.addEventListener("click", (e) => {
     os: 0,
     dvd: 0,
     wifi: 0,
-    battery: 0
+    battery: 0,
+    touch: 0
   };
 
   cpuPrice.textContent = "0.-";
@@ -125,6 +135,7 @@ resetButton.addEventListener("click", (e) => {
   dvdPrice.textContent = "0.-";
   wifiPrice.textContent = "0.-";
   batteryPrice.textContent = "0.-";
+  touchPrice.textContent = "0.-";
   totalPrice.textContent = "CHF 0.-";
 });
 
