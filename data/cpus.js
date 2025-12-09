@@ -972,6 +972,10 @@ export const cpus = [
     price: 80,
   },
   {
+    name: "Intel Xeon E3-1545M @ 2.90 GHz",
+    price: 80,
+  },
+  {
     name: "Intel Core i7 7660U @ 2.5 GHz",
     price: 80,
   },
