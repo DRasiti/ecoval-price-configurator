@@ -1184,6 +1184,10 @@ export const cpus = [
     price: 120,
   },
   {
+    name: "Intel Core i7 1185G7 @ 3.00 GHz",
+    price: 125,
+  },
+  {
     name: "Intel Core i7 11800H @ 1.9–2.3 GHz",
     price: 115,
   },
