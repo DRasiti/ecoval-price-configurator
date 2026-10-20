@@ -16,6 +16,7 @@ const dvd = document.querySelector("#dvd");
 const wifi = document.querySelector("#wifi");
 const battery = document.querySelector("#battery");
 const touch = document.querySelector("#touch");
+const usbCCharger = document.querySelector("#usb-c-charger");
 
 const cpuPrice = document.querySelector("#cpu-price");
 const ramPrice = document.querySelector("#ram-price");
@@ -27,6 +28,7 @@ const dvdPrice = document.querySelector("#dvd-price");
 const wifiPrice = document.querySelector("#wifi-price");
 const batteryPrice = document.querySelector("#battery-price");
 const touchPrice = document.querySelector("#touch-price");
+const chargerPrice = document.querySelector("#usb-c-charger-price");
 const totalPrice = document.querySelector("#total");
 
 const resetButton = document.querySelector("#reset-button");
@@ -41,7 +43,8 @@ let prices = {
   dvd: 0,
   wifi: 0,
   battery: 0,
-  touch: 0
+  touch: 0,
+  usbCCharger: 0
 };
 
 cpu.setAttribute("data", JSON.stringify(cpus));
@@ -100,6 +103,11 @@ touch.addEventListener("switch", (e) => {
   prices.touch = touch.checked ? touch.value : 0;
   total(prices);
 });
+usbCCharger.addEventListener("switch", (e) => {
+  chargerPrice.textContent = `${usbCCharger.checked ? usbCCharger.value : 0}.-`;
+  prices.usbCCharger = usbCCharger.checked ? usbCCharger.value : 0;
+  total(prices);
+});
 
 resetButton.addEventListener("click", (e) => {
   cpu.reset();
@@ -112,7 +120,7 @@ resetButton.addEventListener("click", (e) => {
   wifi.reset();
   battery.reset();
   touch.reset();
-
+  usbCCharger.reset();
   prices = {
     cpu: 0,
     ram: 0,
@@ -123,7 +131,8 @@ resetButton.addEventListener("click", (e) => {
     dvd: 0,
     wifi: 0,
     battery: 0,
-    touch: 0
+    touch: 0,
+    usbCCharger: 0
   };
 
   cpuPrice.textContent = "0.-";
@@ -136,6 +145,7 @@ resetButton.addEventListener("click", (e) => {
   wifiPrice.textContent = "0.-";
   batteryPrice.textContent = "0.-";
   touchPrice.textContent = "0.-";
+  chargerPrice.textContent = "0.-";
   totalPrice.textContent = "CHF 0.-";
 });
 
